@@ -1,0 +1,247 @@
+    <>
+    <Status/>
+    
+
+    <NavigationContainer>
+
+       <Bar/>
+
+      <Routes />
+      
+    </NavigationContainer>
+   </>
+
+
+
+
+ <View>
+
+        <LinearGradient
+                  start={{x: 0, y: 0 }}
+                  end={{x: 0, y: 1 }}
+                  locations={[0.1 , 0.9]}
+                  colors={["#FFFFFF", "#C6C6C6"]}
+                  style={{   
+                      height: '100%',       
+                    }}
+                />
+        </View>
+
+
+
+
+  tabBarIcon: ({ color, size }) => {
+
+                let iconName;
+    
+                switch (route.name) {
+                    case 'Exercise':
+                        iconName = 'weight-lifter';
+                        break;
+                    case 'Diet':
+                        iconName = 'food-apple-outline';
+                        break;
+                    case 'Notification':
+                        iconName = 'bell-outline';
+                        break;
+                    case 'Configuration':
+                        iconName = 'cogs';
+                        break;
+                }
+
+              
+    
+                return <Icon name={iconName} size={size} color={color} />;
+            },
+
+
+alert 
+             alert(`${option.label} (${option.key})`) 
+
+
+
+
+             import React, {useState} from 'react';
+import {View, Text, Button, TouchableOpacity, StyleSheet} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
+
+new Date().toLocaleString()
+
+export default function DataDeNascimento() {
+    const [date, setDate] = useState(new Date(1598051730000));
+    const [show, setShow] = useState(false);
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setShow(false);
+        setDate(currentDate);
+      };
+      const showDatepicker = () => {
+        setShow(true)       
+      };
+    
+      return (
+        <View>
+       <View>
+       <TouchableOpacity style={styles.btnData} onPress={showDatepicker}>
+
+<Text style={{color: '#b3b3b3', paddingLeft: 10,}}>Data de Nascimento <Text style={{color: 'black'}}>{date.toLocaleString()}</Text></Text>
+
+</TouchableOpacity></View>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode={'date'}
+              is24Hour={true}
+              display="spinner"
+              onChange={onChange}
+              maximumDate = { new  Date ( 2100 ,  10 ,  20 ) }
+              textColor="black"
+              locale="pt-BR"
+              neutralButtonLabel="clear" 
+              style={{width: 320}}
+
+            />
+          )}
+      
+        </View>
+      );
+    }
+
+    const styles = StyleSheet.create({
+        btnData:{
+            width: 330,
+            height: 50,
+            backgroundColor: 'white',
+            borderRadius: 10,
+            justifyContent: 'center',
+            marginTop: 25,
+            shadowOffset: {
+                width: 6,
+                height: 6,
+                },
+    shadowOpacity: 0.20,
+    borderColor: '#C6C6C6',
+    marginBottom: 15,
+    borderWidth: 1,
+
+    }})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const [date, setDate] = useState(new Date);
+    const [show, setShow] = useState(false);
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setShow(false);
+        setDate(currentDate);
+      };
+      const showDatepicker = () => {
+        setShow(true)       
+      };
+      const showOffDatepicker = () => {
+        setShow(false)       
+      };
+
+
+
+      const idadeMinimaAno = new Date().getFullYear() - 12;
+      const idadeMinimaMes = new Date().getMonth();
+      const idadeMinimaDia = new Date().getDay();
+
+      const idadeMaximaAno = new Date().getFullYear() - 90;
+
+
+
+
+
+
+
+                    
+                          <View>
+       <View>
+       <TouchableOpacity style={styles.btnData} onPress={showDatepicker}>
+
+<Text style={{color: '#b3b3b3', paddingLeft: 10,}}>{idadeMaximaAno} <Text style={{color: 'black'}}>{date.toLocaleString()}</Text></Text>
+
+</TouchableOpacity></View>
+
+        </View>
+
+
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode="date"
+              is24Hour={true}
+              display="spinner"
+              onChange={onChange}
+              maximumDate = {new  Date(idadeMinimaAno, idadeMinimaMes, idadeMinimaMes)} 
+              minimumDate ={new Date(idadeMaximaAno, idadeMinimaMes, idadeMinimaDia)} 
+              textColor="black"
+              locale="pt-BR"
+              neutralButtonLabel="clear" 
+              style={{width: 320}}
+
+            />
+          )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React from 'react';
+import { View, SafeAreaView, StatusBar } from "react-native";
+
+
+
+export default function Status() {
+
+    return(
+    <SafeAreaView>
+            <StatusBar
+        animated={true}
+        backgroundColor= "#C5DEC0"
+        barStyle="dark-content"
+        hidden={false}
+        
+         />
+                    
+      
+
+
+        </SafeAreaView>
+    );
+}
+    
