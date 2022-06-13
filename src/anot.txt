@@ -245,3 +245,20 @@ export default function Status() {
     );
 }
     
+
+    {date.toLocaleDateString()}
+
+
+
+
+idade mínima igual à data atual -12 anos
+idade máxima igual à data atual -80 anos 
+
+
+
+fazer uma função para se selecionar uma data imcompativel aparecer a frase e deixar a borda do input vermelha.
+
+
+
+
+Erro, data de nascimento do aplicativo só aceita caso o usúario tenha 12 e 5 dias =????????? 

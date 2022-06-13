@@ -7,13 +7,14 @@ import Splash from './src/pages/Splash';
 import Cadastro from './src/pages/Cadastro';
 import CadastroDados from './src/pages/Cadastro/indexPt2';
 import DataDeNascimento from './src/pages/Cadastro/dataDeNascimento';
+import { Foo } from './src/pages/Cadastro/toast';
 
 
 export default function App() {
   return (
     <>
     
-    <Cadastro/>
+    <CadastroDados/>
    </>
   );
   }

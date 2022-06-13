@@ -20,6 +20,9 @@ import DataDeNascimento from './dataDeNascimento';
 
 import Statusbar from '../../StatusBar';
 
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
+import moment from 'moment';
 
 
 export default function CadastroDados() {
@@ -35,10 +38,6 @@ export default function CadastroDados() {
         { key: index++, label: 'Masculino' },
         { key: index++, label: 'Feminino' },
         { key: index++, label: 'Prefiro não dizer' },
-        
- 
- 
- 
     ];
 
     const altura = [
@@ -116,6 +115,26 @@ export default function CadastroDados() {
         { key: index++, label: '2.08 m' },
         { key: index++, label: '2.09 m' },
         { key: index++, label: '2.10 m' },
+        { key: index++, label: '2.11 m' },
+        { key: index++, label: '2.12 m' },
+        { key: index++, label: '2.13 m' },
+        { key: index++, label: '2.14 m' },
+        { key: index++, label: '2.15 m' },
+        { key: index++, label: '2.16 m' },
+        { key: index++, label: '2.17 m' },
+        { key: index++, label: '2.18 m' },
+        { key: index++, label: '2.19 m' },
+        { key: index++, label: '2.20 m' },
+        { key: index++, label: '2.21 m' },
+        { key: index++, label: '2.22 m' },
+        { key: index++, label: '2.23 m' },
+        { key: index++, label: '2.24 m' },
+        { key: index++, label: '2.25 m' },
+        { key: index++, label: '2.26 m' },
+        { key: index++, label: '2.27 m' },
+        { key: index++, label: '2.28 m' },
+        { key: index++, label: '2.29 m' },
+        { key: index++, label: '2.30 m' },
     ];
 
     const peso = [
@@ -212,10 +231,81 @@ export default function CadastroDados() {
         { key: index++, section: true, label: 'Objetivo' },
         { key: index++, label: 'Perder Peso' },
         { key: index++, label: 'Hipertrofia' },
-        { key: index++, label: 'Manter a Forma', accessibilityLabel: 'Tap here for cranberries' },
+      
     ];
+
     
- 
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+    
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+    
+    const handleConfirm = (userDate) => {
+        setDate(userDate.toLocaleDateString());
+        hideDatePicker();
+        // console.warn(userDate.toLocaleDateString());
+    };
+    
+    const [date, setDate] = useState("Data de Nascimento");
+    
+    
+    const wrongDate = () => {
+      function getCurrentDate(age)  {
+        var date = new Date();
+        var day = date.getDay();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+      
+        function formatMonth(month) {
+          if (String(month).length > 1) {
+            return month;
+          } else {
+            return `0${month}`;
+          }
+        }
+    
+        function formatDay(day) {
+          if (String(day).length > 1) {
+            return day;
+          } else {
+            return `0${day}`;
+          }
+        }
+    
+        if (age > 0) {
+          return `${year - age}-${formatMonth(month)}-${formatDay(day)}`;
+        } else {
+          return `${year}-${formatMonth(month)}-${formatDay(day)}`;
+        }
+      }
+
+      if (String(getCurrentDate()) == date) {
+        console.warn("Insira uma data de nascimento valida!");
+        return;
+      }
+      if (moment(date).isAfter(getCurrentDate())) {
+        console.warn("Insira uma data de nascimento valida!");
+        return;
+      }
+      if (moment(date).isAfter(getCurrentDate(12))) {
+        console.warn(
+          "Apenas pessoas com mais de 12 anos podem se cadastrar no Nemesis!"
+        );
+        return;
+      }
+      if (moment(date).isBefore(getCurrentDate(80))) {
+        console.warn("A idade máxima é de 80 anos");
+        return;
+      }
+      if (console.warn(date)){
+        return;
+      }}
+
 
     return (
 
@@ -229,7 +319,33 @@ export default function CadastroDados() {
                           <Image style={styles.imagem} source={require('../../assets/NemesisV1.1.png')} />
 
 
-                    <DataDeNascimento/>
+                          <View>
+
+                <Text style={{color: 'red', alignContent: 'center', alignSelf: 'center', fontSize: 15}}>Data de Nascimento Inválida!</Text>
+
+                <TouchableOpacity style={styles.btnData} onPress={showDatePicker}>
+
+                <Text style={{color: '#b3b3b3', paddingLeft: 10,}}>{date}</Text>
+                <TouchableWithoutFeedback>
+
+                        <DateTimePickerModal
+                        isVisible={isDatePickerVisible}
+                        mode="date"
+                        onConfirm={handleConfirm}
+                        onCancel={hideDatePicker}
+                        display="spinner"
+                        textColor="black"
+                        locale="pt-BR"
+                        style={{width: '100%'}}
+                        buttonTextColorIOS="#45C4B0"
+                        cancelTextIOS="Sair"
+                        confirmTextIOS="Confirmar"
+                        isDarkModeEnabled={false}
+                        />
+                    
+                    </TouchableWithoutFeedback>
+                </TouchableOpacity>
+                </View>
 
                     <ModalSelector  
                         data={sexo}
@@ -244,6 +360,7 @@ export default function CadastroDados() {
                         
                         selectedItemTextStyle={{color: '#5faac7'}}
 
+                       
                         
 
                         cancelText="Sair"
@@ -255,7 +372,7 @@ export default function CadastroDados() {
                         optionTextStyle={{color: '#525252', fontSize: 20, paddingTop: 5}}
 
                         backdropPressToClose="true"
-                    />
+                    ></ModalSelector>
 
                     <ModalSelector
                         data={altura}
@@ -336,7 +453,7 @@ export default function CadastroDados() {
                     />
 
 
-                    <TouchableOpacity style={styles.btnCadastro} onPress={()=>cadastro()}>
+                    <TouchableOpacity style={styles.btnCadastro} onPress={wrongDate}>
 
                         <Text style={{color: 'white', textAlign: 'center', fontWeight: 'bold'}}>Cadastrar</Text>
 

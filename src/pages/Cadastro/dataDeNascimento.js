@@ -3,7 +3,6 @@ import {View, TouchableOpacity, StyleSheet, Text} from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 
-
 const DataDeNascimento = () => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -15,56 +14,41 @@ const DataDeNascimento = () => {
     setDatePickerVisibility(false);
   };
 
-  const handleConfirm = (date) => {
-    console.warn(date);
-    setDate(date);
+  const handleConfirm = (userDate) => {
+    setDate(userDate.toLocaleDateString());
     hideDatePicker();
+    console.warn(userDate.toLocaleDateString());
   };
 
-
-
-  const currentDate = new Date();
-
-
-  const idadeMinimaAno = new Date().getFullYear() - 12;
-  const idadeMinimaMes = new Date().getMonth();
-  const idadeMinimaDia = new Date().getDay();
-
-  const idadeMaximaAno = new Date().getFullYear() - 90;
-
-  const [date, setDate] = useState(new Date);
-  const [show, setShow] = useState(false);
+  const [date, setDate] = useState("Data de Nascimento");
+  // const [show, setShow] = useState(false);
 
 
   return (
     <View>
-      
-      
 
-       <TouchableOpacity style={styles.btnData} onPress={showDatePicker}>
+      <Text style={{color: 'red', alignContent: 'center', alignSelf: 'center', fontSize: 15}}>Data de Nascimento Inválida!</Text>
 
-<Text style={{color: '#b3b3b3', paddingLeft: 10,}}>Data De Nascimento</Text>
-<Text style={{color: '#b3b3b3', paddingLeft: 10,}}>{date.toLocaleDateString()}</Text>
+      <TouchableOpacity style={styles.btnData} onPress={showDatePicker}>
 
+        <Text style={{color: '#b3b3b3', paddingLeft: 10,}}>{date}</Text>
 
-      <DateTimePickerModal
-
-        isVisible={isDatePickerVisible}
-        mode="date"
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-        display="spinner"
-        textColor="black"
-        locale="pt-BR"
-        neutralButtonLabel="clear" 
-        style={{width: '100%'}}
-        buttonTextColorIOS="#45C4B0"
-        cancelTextIOS="Sair"
-        confirmTextIOS="Confirmar"
-        isDarkModeEnabled={false}
-      />
-
-</TouchableOpacity>
+              <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+                display="spinner"
+                textColor="black"
+                locale="pt-BR"
+                style={{width: '100%'}}
+                buttonTextColorIOS="#45C4B0"
+                cancelTextIOS="Sair"
+                confirmTextIOS="Confirmar"
+                isDarkModeEnabled={false}
+              />
+           
+      </TouchableOpacity>
     </View>
   );
 };
@@ -86,8 +70,6 @@ marginBottom: 15,
 borderWidth: 1,
 
 },
-
-
 })
 
 

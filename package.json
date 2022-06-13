@@ -24,6 +24,7 @@
     "expo-status-bar": "~1.2.0",
     "global": "^4.4.0",
     "legacy": "^0.0.3",
+    "moment": "^2.29.3",
     "peer": "^0.6.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
@@ -35,6 +36,7 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-splash-screen": "^3.3.0",
+    "react-native-toast-message": "^2.1.5",
     "react-native-vector-icons": "^9.1.0",
     "react-native-web": "0.17.1",
     "styled-components": "^5.3.5"
