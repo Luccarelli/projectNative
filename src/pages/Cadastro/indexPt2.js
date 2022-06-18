@@ -8,30 +8,25 @@ import { View,
          TouchableOpacity,
          TouchableWithoutFeedback,
          Keyboard,
-         ScrollView
+         ScrollView,
+         Button,
+         ColorPropType
         } from 'react-native';
 
-
-import { LinearGradient } from 'expo-linear-gradient';
-
-import ModalSelector from 'react-native-modal-selector';
-
 import DataDeNascimento from './dataDeNascimento';
-
 import Statusbar from '../../StatusBar';
 
+import { LinearGradient } from 'expo-linear-gradient';
+import ModalSelector from 'react-native-modal-selector';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 import moment from 'moment';
+
 
 
 export default function CadastroDados() {
 
-
     let index = 0;
-
-    
-
 
     const sexo = [
         { key: index++, section: true, label: 'Sexo' },
@@ -234,9 +229,11 @@ export default function CadastroDados() {
       
     ];
 
-    
+
+  
+
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    
+
     const showDatePicker = () => {
         setDatePickerVisibility(true);
     };
@@ -251,16 +248,17 @@ export default function CadastroDados() {
         // console.warn(userDate.toLocaleDateString());
     };
     
+    moment().format();
     const [date, setDate] = useState("Data de Nascimento");
     
-    
-    const wrongDate = () => {
-      function getCurrentDate(age)  {
+
+    const register = () => {
+    function getCurrentDate(age) {
         var date = new Date();
-        var day = date.getDay();
+        var day = date.getDay() + 12;
         var month = date.getMonth() + 1;
         var year = date.getFullYear();
-      
+    
         function formatMonth(month) {
           if (String(month).length > 1) {
             return month;
@@ -268,7 +266,6 @@ export default function CadastroDados() {
             return `0${month}`;
           }
         }
-    
         function formatDay(day) {
           if (String(day).length > 1) {
             return day;
@@ -277,56 +274,60 @@ export default function CadastroDados() {
           }
         }
     
-        if (age > 0) {
+      if (age > 0) {
           return `${year - age}-${formatMonth(month)}-${formatDay(day)}`;
         } else {
           return `${year}-${formatMonth(month)}-${formatDay(day)}`;
         }
       }
 
-      if (String(getCurrentDate()) == date) {
-        console.warn("Insira uma data de nascimento valida!");
+      if (String(getCurrentDate(0)) == date) {
+        Toast.show({type: 'error',
+        text1: "Insira uma data de nascimento valida!",
+      });
         return;
       }
-      if (moment(date).isAfter(getCurrentDate())) {
-        console.warn("Insira uma data de nascimento valida!");
+      if (moment(date).isAfter(getCurrentDate(0))) {
+        Toast.show({type: 'error',
+        text1: "Insira uma data de nascimento valida!",
+      });
         return;
       }
       if (moment(date).isAfter(getCurrentDate(12))) {
-        console.warn(
-          "Apenas pessoas com mais de 12 anos podem se cadastrar no Nemesis!"
+        Toast.show({type: 'error',  text1:"Apenas pessoas com mais de 12 anos podem se cadastrar no Nemesis!"}
         );
         return;
       }
       if (moment(date).isBefore(getCurrentDate(80))) {
-        console.warn("A idade máxima é de 80 anos");
+        Toast.show({ type:'error', text1:"A idade máxima é de 80 anos"});
         return;
       }
-      if (console.warn(date)){
+      if ((sexo) == "Sexo"){
+        console.warn("Insira o sexo");
         return;
       }}
 
 
+
     return (
 
-        
-       
         <SafeAreaView style={styles.bar}>
-            <ScrollView>
+          <ScrollView>
             <Statusbar/>
-                  <View style={styles.container}>
+              <View style={styles.container}>
+                <Toast/>
                           
-                          <Image style={styles.imagem} source={require('../../assets/NemesisV1.1.png')} />
+                    <Image style={styles.imagem} source={require('../../assets/NemesisV1.1.png')} />
 
+                  
 
-                          <View>
+                <View>
 
-                <Text style={{color: 'red', alignContent: 'center', alignSelf: 'center', fontSize: 15}}>Data de Nascimento Inválida!</Text>
+                  <TouchableOpacity style={styles.btnData} onPress={showDatePicker}>
 
-                <TouchableOpacity style={styles.btnData} onPress={showDatePicker}>
+                        <Text style={{color: '#000000', paddingLeft: 10,}}>{date}</Text>
 
-                <Text style={{color: '#b3b3b3', paddingLeft: 10,}}>{date}</Text>
-                <TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback>
 
                         <DateTimePickerModal
                         isVisible={isDatePickerVisible}
@@ -344,7 +345,9 @@ export default function CadastroDados() {
                         />
                     
                     </TouchableWithoutFeedback>
-                </TouchableOpacity>
+
+                  </TouchableOpacity>
+
                 </View>
 
                     <ModalSelector  
@@ -355,22 +358,14 @@ export default function CadastroDados() {
                         selectStyle={styles.modalSelectStyle}
                         animationType='fade'
                         overlayStyle={{ flex: 1, padding: '5%', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.6)',}}
-                        
-                        sectionTextStyle={{color: '#3AAE9C', fontSize: 25, alignContent:'center', alignItems:'center', alignSelf: 'center'}}
-                        
+                        sectionTextStyle={{color: '#3AAE9C', fontSize: 25, alignContent:'center', alignItems:'center', alignSelf: 'center'}}                        
                         selectedItemTextStyle={{color: '#5faac7'}}
-
-                       
-                        
-
                         cancelText="Sair"
                         cancelTextStyle={{color: 'red', fontSize: 20, alignSelf:'center', paddingTop: 3}}
-                        cancelStyle={{borderRadius: 10, height: 45, alignItems: 'center'}}
-                        
+                        cancelStyle={{borderRadius: 10, height: 45, alignItems: 'center'}}                     
                         optionContainerStyle={{borderRadius: 10, marginBottom: 15,  maxHeight: 650}}
                         optionStyle={{height: 50, alignContent:'center', alignItems:'center'}}
                         optionTextStyle={{color: '#525252', fontSize: 20, paddingTop: 5}}
-
                         backdropPressToClose="true"
                     ></ModalSelector>
 
@@ -381,22 +376,15 @@ export default function CadastroDados() {
                         style={styles.modalSelector} 
                         selectStyle={styles.modalSelectStyle}
                         animationType='fade'
-                        overlayStyle={{ flex: 1, padding: '5%', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.6)',}}
-                        
-                        sectionTextStyle={{color: '#3AAE9C', fontSize: 25, alignContent:'center', alignItems:'center', alignSelf: 'center'}}
-                        
+                        overlayStyle={{ flex: 1, padding: '5%', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.6)',}}                        
+                        sectionTextStyle={{color: '#3AAE9C', fontSize: 25, alignContent:'center', alignItems:'center', alignSelf: 'center'}}                        
                         selectedItemTextStyle={{color: '#5faac7'}}
-
-                       
-
                         cancelText="Sair"
                         cancelTextStyle={{color: 'red', fontSize: 20, alignSelf:'center', paddingTop: 3}}
-                        cancelStyle={{borderRadius: 10, height: 45, alignItems: 'center',}}
-                        
+                        cancelStyle={{borderRadius: 10, height: 45, alignItems: 'center',}}                        
                         optionContainerStyle={{borderRadius: 10, marginBottom: 15, maxHeight: 650}}
                         optionStyle={{height: 50, alignContent:'center', alignItems:'center'}}
                         optionTextStyle={{color: '#525252', fontSize: 20, paddingTop: 5}}
-
                         backdropPressToClose="true"
                     />
 
@@ -407,22 +395,15 @@ export default function CadastroDados() {
                         style={styles.modalSelector} 
                         selectStyle={styles.modalSelectStyle}
                         animationType='fade'
-                        overlayStyle={{ flex: 1, padding: '5%', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.6)',}}
-                        
-                        sectionTextStyle={{color: '#3AAE9C', fontSize: 25, alignContent:'center', alignItems:'center', alignSelf: 'center'}}
-                        
+                        overlayStyle={{ flex: 1, padding: '5%', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.6)',}}                        
+                        sectionTextStyle={{color: '#3AAE9C', fontSize: 25, alignContent:'center', alignItems:'center', alignSelf: 'center'}}                       
                         selectedItemTextStyle={{color: '#5faac7'}}
-
-                        
-                        
                         cancelText="Sair"
                         cancelTextStyle={{color: 'red', fontSize: 20, alignSelf:'center', paddingTop: 3}}
-                        cancelStyle={{borderRadius: 10, height: 45, alignItems: 'center'}}
-                        
+                        cancelStyle={{borderRadius: 10, height: 45, alignItems: 'center'}}    
                         optionContainerStyle={{borderRadius: 10, marginBottom: 15, maxHeight: 650}}
                         optionStyle={{height: 50, alignContent:'center', alignItems:'center'}}
                         optionTextStyle={{color: '#525252', fontSize: 20, paddingTop: 5}}
-
                         backdropPressToClose="true"
                     />
 
@@ -434,26 +415,19 @@ export default function CadastroDados() {
                         selectStyle={styles.modalSelectStyle}
                         animationType='fade'
                         overlayStyle={{ flex: 1, padding: '5%', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.6)',}}
-                        
                         sectionTextStyle={{color: '#3AAE9C', fontSize: 25, alignContent:'center', alignItems:'center', alignSelf: 'center'}}
-                        
                         selectedItemTextStyle={{color: '#5faac7'}}
-
-                        
-                        
                         cancelText="Sair"
                         cancelTextStyle={{color: 'red', fontSize: 20, alignSelf:'center', paddingTop: 3}}
                         cancelStyle={{borderRadius: 10, height: 45, alignItems: 'center'}}
-                        
                         optionContainerStyle={{borderRadius: 10, marginBottom: 15,  maxHeight: 650}}
                         optionStyle={{height: 50, alignContent:'center', alignItems:'center'}}
                         optionTextStyle={{color: '#525252', fontSize: 20, paddingTop: 5}}
-
                         backdropPressToClose="true"
                     />
 
 
-                    <TouchableOpacity style={styles.btnCadastro} onPress={wrongDate}>
+                    <TouchableOpacity style={styles.btnCadastro} onPress={register}>
 
                         <Text style={{color: 'white', textAlign: 'center', fontWeight: 'bold'}}>Cadastrar</Text>
 
@@ -463,7 +437,7 @@ export default function CadastroDados() {
                   </View>
      <View>
 
-        <LinearGradient
+        {/* <LinearGradient
             start={{x: 0, y: 0 }}
             end={{x: 0, y: 1 }}
             locations={[0.1 , 0.9]}
@@ -471,7 +445,7 @@ export default function CadastroDados() {
             style={{   
                 height: '100%',       
                 }}
-        />
+        /> */}
         </View>
         </ScrollView>
         </SafeAreaView>
@@ -486,6 +460,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingTop: '35%',
         backgroundColor: "#EBEBEB",
+        
 },
 
     imagem:{
@@ -533,11 +508,12 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         alignItems: 'flex-start', 
         paddingTop: '4%',   
+        
 },
     btnData:{
         width: 330,
         height: 50,
-        backgroundColor: 'white',
+        backgroundColor: '#FFFFFF',
         borderRadius: 10,
         justifyContent: 'center',
         marginTop: 25,

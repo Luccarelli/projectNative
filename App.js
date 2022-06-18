@@ -9,12 +9,15 @@ import CadastroDados from './src/pages/Cadastro/indexPt2';
 import DataDeNascimento from './src/pages/Cadastro/dataDeNascimento';
 import { Foo } from './src/pages/Cadastro/toast';
 
+import { Link, useNavigate } from "react-router-dom";
+import Home from './src/pages/Home';
+
 
 export default function App() {
   return (
     <>
     
-    <CadastroDados/>
+    <Cadastro/>
    </>
   );
   }

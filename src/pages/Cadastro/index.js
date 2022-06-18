@@ -14,7 +14,10 @@ import { View,
 
 import { LinearGradient } from 'expo-linear-gradient';
 import Statusbar from '../../StatusBar';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import CadastroDados from './indexPt2';
 
 
 export default function Cadastro() {
@@ -25,22 +28,26 @@ export default function Cadastro() {
     const [confirmarSenha, setConfirmarSenha] = useState('');
     
 
-    const cadastro = () => {
+    const Register = () => {
         alert(nome);
         alert(email);
         alert(senha);
         alert(confirmarSenha);
-        //Fazer chamada para o back-end para cadastro.
     }
+    
+    const Stack = createNativeStackNavigator();
+
+  
  
 
     return (
-        
+            <NavigationContainer>
+                  
+            <SafeAreaView style={styles.bar}>
         <ScrollView>
             <Statusbar/>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}> */}
       
-        <SafeAreaView style={styles.bar}>
                   <View style={styles.container}>
                           
                           <Image style={styles.imagem} source={require('../../assets/NemesisV1.1.png')} />
@@ -51,7 +58,7 @@ export default function Cadastro() {
                             <TextInput secureTextEntry={true} placeholder='Confirme Sua Senha' placeholderTextColor="#b3b3b3" style={styles.textInput} onChangeText={text=>setConfirmarSenha(text)}/>
           
 
-                            <TouchableOpacity style={styles.btnCadastro} onPress={()=>cadastro()}>
+                            <TouchableOpacity style={styles.btnCadastro} onPress={()=>Register()}>
 
                                 <Text style={{color: 'white', textAlign: 'center', fontWeight: 'bold'}}>Cadastrar</Text>
 
@@ -64,6 +71,7 @@ export default function Cadastro() {
                             </TouchableOpacity>
                   </View>
      <View>
+        
 
         <LinearGradient
                   start={{x: 0, y: 0 }}
@@ -75,10 +83,13 @@ export default function Cadastro() {
                     }}
                 />
         </View>
+       
 
-        </SafeAreaView>
-        </TouchableWithoutFeedback>
+        {/* </TouchableWithoutFeedback> */}
         </ScrollView>
+        </SafeAreaView>
+        
+        </NavigationContainer>
     );
 }
 
